@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block content %}
+<div class="card"><h1>{{ p.name }}</h1><div class="price">₹{{ p.price }} {{ p.get_unit_display }}</div>
+<p>{{ p.description }}</p><p class="muted">Grown by {{ p.farmer.username }} in {{ p.farmer.village }}, {{ p.farmer.district }}. Phone: {{ p.farmer.phone }}<br>{{ p.quantity }} {{ p.unit }} in stock</p></div>
+<div class="card" style="margin-top:1rem;max-width:480px"><h3>Order this</h3>
+<form method="post">{% csrf_token %}{% for f in form %}<label>{{ f.label }}</label>{{ f }}{% for e in f.errors %}<div class="err">{{ e }}</div>{% endfor %}{% endfor %}
+<p><button class="btn">Place order</button></p></form></div>{% endblock %}

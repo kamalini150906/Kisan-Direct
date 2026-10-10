@@ -1,0 +1,7 @@
+{% extends 'base.html' %}{% block content %}<h1>{% if incoming %}Incoming orders{% else %}My orders{% endif %}</h1>
+<table><tr><th>Produce</th><th>Qty</th><th>Total</th><th>{% if incoming %}Buyer{% else %}Farmer{% endif %}</th><th>Status</th></tr>
+{% for o in orders %}<tr><td>{{ o.product.name }}</td><td>{{ o.quantity }} {{ o.product.unit }}</td><td>₹{{ o.total }}</td>
+<td>{% if incoming %}{{ o.buyer.username }}, {{ o.buyer.phone }}<br><span class="muted">{{ o.address }}</span>{% else %}{{ o.product.farmer.username }}, {{ o.product.farmer.phone }}{% endif %}</td>
+<td>{% if incoming %}<form method="post" action="{% url 'update_status' o.pk %}">{% csrf_token %}<select name="status" onchange="this.form.submit()">
+{% for k,v in statuses %}<option value="{{ k }}" {% if k == o.status %}selected{% endif %}>{{ v }}</option>{% endfor %}</select></form>{% else %}{{ o.get_status_display }}{% endif %}</td></tr>
+{% empty %}<tr><td colspan="5">No orders yet.</td></tr>{% endfor %}</table>{% endblock %}

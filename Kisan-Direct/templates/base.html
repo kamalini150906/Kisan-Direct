@@ -1,0 +1,30 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Kisan Direct</title>
+<style>
+:root{--g:#1f4d2b;--bg:#f2f6ee;--ink:#1c211b;--gold:#e0a100;--line:#cfdac8}
+*{box-sizing:border-box}body{margin:0;font:16px/1.55 Georgia,serif;background:var(--bg);color:var(--ink)}
+header{background:var(--g);color:#fff;padding:.8rem 1.2rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+header a,header button{color:#fff;text-decoration:none;background:none;border:0;font:inherit;cursor:pointer}
+.logo{font-size:1.4rem;font-weight:bold;margin-right:auto;border-bottom:3px solid var(--gold)}
+main{max-width:960px;margin:1.5rem auto;padding:0 1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
+.card{background:#fff;border:1px solid var(--line);border-left:5px solid var(--g);padding:1rem}
+.card h3{margin:.1rem 0}.price{font-size:1.3rem;color:var(--g);font-weight:bold}.muted{color:#5b6a58;font-size:.9rem}
+input,select,textarea{width:100%;padding:.55rem;border:1px solid #9fb396;font:inherit;background:#fff}
+.btn,button.btn{display:inline-block;background:var(--g);color:#fff;border:0;padding:.6rem 1.1rem;font:inherit;text-decoration:none;cursor:pointer}
+.btn:hover,.btn:focus-visible{background:#143a1e;outline:2px solid var(--gold)}
+.bar{display:flex;gap:.5rem;margin-bottom:1.2rem;flex-wrap:wrap}.bar input{flex:2}.bar select{flex:1}
+.msg{padding:.7rem 1rem;background:#fff6d6;border-left:5px solid var(--gold);margin-bottom:1rem}
+.err{color:#a11;font-size:.9rem}label{display:block;margin:.8rem 0 .2rem}
+table{width:100%;border-collapse:collapse;background:#fff}td,th{padding:.6rem;border:1px solid var(--line);text-align:left}
+.tag{background:var(--gold);padding:.1rem .5rem;font-size:.85rem}
+</style></head><body>
+<header><a class="logo" href="{% url 'home' %}">Kisan Direct</a>
+{% if user.is_authenticated %}
+ {% if user.role == 'farmer' %}<a href="{% url 'add_product' %}">List produce</a><a href="{% url 'my_products' %}">My listings</a><a href="{% url 'incoming_orders' %}">Incoming orders</a>
+ {% else %}<a href="{% url 'my_orders' %}">My orders</a>{% endif %}
+ <form method="post" action="{% url 'logout' %}" style="margin:0">{% csrf_token %}<button>Log out ({{ user.username }})</button></form>
+{% else %}<a href="{% url 'login' %}">Log in</a><a href="{% url 'register' %}">Sign up</a>{% endif %}
+</header><main>
+{% for m in messages %}<div class="msg">{{ m }}</div>{% endfor %}
+{% block content %}{% endblock %}</main></body></html>

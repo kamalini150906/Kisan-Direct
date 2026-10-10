@@ -1,0 +1,11 @@
+{% extends 'base.html' %}{% block content %}
+<h1>Fresh from the farm, straight to you</h1>
+<form class="bar" method="get"><input name="q" value="{{ q }}" placeholder="Search produce, village or district">
+<select name="category"><option value="">All categories</option>
+{% for k,v in categories %}<option value="{{ k }}" {% if k == cat %}selected{% endif %}>{{ v }}</option>{% endfor %}</select>
+<button class="btn">Search</button></form>
+<div class="grid">{% for p in items %}
+<a class="card" style="color:inherit;text-decoration:none" href="{% url 'detail' p.pk %}">
+<h3>{{ p.name }}</h3><div class="price">₹{{ p.price }} <span class="muted">{{ p.get_unit_display }}</span></div>
+<div class="muted">{{ p.farmer.village }}, {{ p.farmer.district }}</div><span class="tag">{{ p.quantity }} {{ p.unit }} left</span></a>
+{% empty %}<p>No produce found. Farmers can sign up and list the first harvest.</p>{% endfor %}</div>{% endblock %}

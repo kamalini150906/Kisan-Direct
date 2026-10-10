@@ -1,0 +1,4 @@
+{% extends 'base.html' %}{% block content %}<h1>My listings</h1>
+<table><tr><th>Produce</th><th>Price</th><th>Stock</th></tr>
+{% for p in items %}<tr><td>{{ p.name }}</td><td>₹{{ p.price }} {{ p.get_unit_display }}</td><td>{{ p.quantity }} {{ p.unit }}</td></tr>
+{% empty %}<tr><td colspan="3">Nothing listed yet. <a href="{% url 'add_product' %}">List your produce</a></td></tr>{% endfor %}</table>{% endblock %}
